@@ -21,7 +21,7 @@ body {
 /* Found Words Section */
 #found-words-container {
   
-  flex: 0 0 30%; 
+  flex: 0 0 10%; 
 
   /* Enable scrolling when content overflows */
   overflow-y: auto;
