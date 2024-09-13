@@ -10,45 +10,66 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Loading Message -->
   <div id="loading-message">Loading game, please wait...</div>
-  <div id="game-container" style="display: none;">
-    <div id="grid"></div>
-    <div id="current-word">Current Word: <span id="word"></span></div>
 
-    <!-- Updated Controls -->
-    <div id="controls">
-      <!-- Removed submit-word button -->
-      <button id="finish-game">Finish</button>
-      <button id="rotate-board">Rotate</button>
+  <!-- Game Container -->
+  <div id="game-container" class="hidden">
+      <!-- Game Info and Controls -->
+    <div id="game-info">
+      <div id="score"></div>
+      <div id="total-words">Found <span id="found-words-value">0</span> of <span id="total-words-value">0</span> Score: <span id="score-value">0</span></div>
+      <div id="controls">
+        <button id="finish-game">Finish</button>
+        <button id="rotate-board">Rotate</button>
+      </div>
+    </div>  
+    <!-- Found Words Section -->
+    <div id="found-words-container">
+      <ul id="word-list"></ul>
+    </div>
+    <div id="current-word-container">
+      <div id="current-word">&nbsp;<span id="word"></span></div>
     </div>
 
-    <div id="score">Score: <span id="score-value">0</span></div>
-    <div id="total-words">Total Words to Find: <span id="total-words-value">0</span></div>
-    <ul id="word-list"></ul>
+
+
+    <!-- Game Grid -->
+    <div id="grid"></div>
   </div>
 
+  <!-- Modal for Confirmation Prompt -->
+  <div id="modal-overlay" class="hidden">
+    <div id="confirmation-modal" class="modal">
+      <p>Are you sure you want to finish the game?</p>
+      <button id="confirm-finish">Yes</button>
+      <button id="cancel-finish">No</button>
+    </div>
+  </div>
 
-	<!-- Modal for Confirmation Prompt -->
-	<div id="modal-overlay" class="hidden">
-	  <div id="confirmation-modal" class="modal">
-		<p>Are you sure you want to finish the game?</p>
-		<button id="confirm-finish">Yes</button>
-		<button id="cancel-finish">No</button>
-	  </div>
-	</div>
+  <!-- Modal for Displaying Missed Words -->
+  <div id="missed-words-overlay" class="hidden">
+    <div id="missed-words-modal" class="modal">
+      <h2>Missed Words</h2>
+      <p>You missed <span id="missed-words-count"></span> words:</p>
+      <div id="missed-words-list"></div>
+      <p>Would you like to play again?</p>
+      <button id="play-again">Play Again</button>
+      <button id="exit-game">Exit</button>
+    </div>
+  </div>
 
-	<!-- Modal for Displaying Missed Words -->
-	<div id="missed-words-overlay" class="hidden">
-	  <div id="missed-words-modal" class="modal">
-		<h2>Missed Words</h2>
-		<p>You missed <span id="missed-words-count"></span> words:</p>
-		<div id="missed-words-list"></div>
-		<p>Would you like to play again?</p>
-		<button id="play-again">Play Again</button>
-		<button id="exit-game">Exit</button>
-	  </div>
-	</div>
-
+  <!-- Modal for Winning -->
+  <div id="winning-overlay" class="hidden">
+    <div id="winning-modal" class="modal">
+      <h2>You won!</h2>
+      <p>You found all <span id="winning-words-count"></span> words:</p>
+      <div id="winning-words-list"></div>
+      <p>Would you like to play again?</p>
+      <button id="wplay-again">Play Again</button>
+      <button id="wexit-game">Exit</button>
+    </div>
+  </div>
 
   <!-- Link to external JavaScript -->
   <script src="app.js"></script>

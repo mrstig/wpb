@@ -1,5 +1,10 @@
 /* styles.css */
 
+html {
+    overflow: hidden;
+    height: 100%;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f5f5f5;
@@ -9,15 +14,87 @@ body {
   max-width: 400px;
   margin: 20px auto;
   text-align: center;
+  display: flex;
 }
 
+
+/* Found Words Section */
+#found-words-container {
+  
+  flex: 0 0 30%; 
+
+  /* Enable scrolling when content overflows */
+  overflow-y: auto;
+  
+  /* Optional: Add padding and background for better aesthetics */
+  padding: 10px;
+  
+  /* Ensure it doesn't shrink below its content */
+  flex-shrink: 0;
+}
+
+#found-words-container h2 {
+  margin-top: 0;
+}
+
+/* Word List */
+#word-list {
+  /* Use Flexbox to arrange words horizontally */
+  display: flex;
+  
+  /* Allow words to wrap to the next line */
+  flex-wrap: wrap;
+  
+  /* Remove default list styling */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 20px;
+  
+}
+
+/* Individual Word Items */
+#word-list li {
+  border-radius: 4px;
+  font-size: 14px; /* Adjust as needed */
+  
+  
+  /* Prevent words from stretching */
+  flex: 0 0 auto;
+}
+
+
+#game-container {
+  display: flex;
+  flex-direction: column;
+  
+  /* Set height to fill the viewport */
+  height: 100vh;
+  
+  /* Optional: Add padding and background */
+  padding: 10px;
+  background-color: #ffffff;
+  
+  /* Ensure child elements can grow and shrink appropriately */
+  box-sizing: border-box;
+}
+
+/* Game Grid */
 #grid {
+  /* Allow the grid to take up remaining space */
+  flex: 1 1 auto;
+  
+  /* Maintain grid layout */
   display: grid;
-  grid-template-columns: repeat(4, 70px);
-  grid-template-rows: repeat(4, 70px);
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   gap: 5px;
-  justify-content: center;
-  position: relative;
+  
+  /* Optional: Add padding */
+  padding: 10px 0;
+  
+  /* Ensure it doesn't shrink below its content */
+  flex-shrink: 0;
 }
 
 .tile {
@@ -41,9 +118,14 @@ body {
   border-color: #007acc;
 }
 
-#current-word, #score {
+#score {
   margin: 15px 0;
-  font-size: 18px;
+  font-size: 14px;
+}
+
+#current-word {
+  margin: 15px 0;
+  font-size: 24px;
 }
 
 /* Removed submit-word button styles */
@@ -60,19 +142,9 @@ body {
 
 #total-words {
   margin: 15px 0;
-  font-size: 18px;
+  font-size: 14px;
 }
 
-#word-list {
-  list-style-type: none;
-  padding: 0;
-  margin-top: 20px;
-}
-
-#word-list li {
-  font-size: 16px;
-  margin: 5px 0;
-}
 
 /* Adjust tile font size for 'Qu' */
 .tile.qu {
@@ -84,6 +156,13 @@ body {
   color: green;
   font-weight: bold;
 }
+
+/* Highlight already found words */
+#word.found-word {
+  color: blue;
+  font-weight: bold;
+}
+
 
 /* Highlight invalid words */
 #word.invalid-word {
@@ -116,7 +195,9 @@ body {
 
 /* Modal Overlay Styles */
 #modal-overlay,
-#missed-words-overlay {
+#missed-words-overlay,
+#winning-overlay
+ {
   position: fixed;
   top: 0;
   left: 0;
@@ -130,7 +211,9 @@ body {
 
 /* Add display: flex only when the modals are not hidden */
 #modal-overlay:not(.hidden),
-#missed-words-overlay:not(.hidden) {
+#missed-words-overlay:not(.hidden),
+#winning-overlay:not(.hidden)
+ {
   display: flex;
 }
 
@@ -194,4 +277,29 @@ body {
   grid-template-rows: repeat(4, 70px);
   gap: 5px;
   justify-content: center;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  /* Adjust the height of the found words container */
+  #found-words-container {
+    height: 120px; /* Reduce height on smaller screens */
+  }
+  
+  /* Adjust word item font size */
+  #word-list li {
+    font-size: 12px;
+    padding: 2px 4px;
+  }
+  
+  /* Adjust game grid gap and tile size */
+  #grid {
+    gap: 4px;
+  }
+  
+  .tile {
+    font-size: 20px; /* Reduce font size for tiles */
+    padding: 5px;
+  }
 }

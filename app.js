@@ -5,10 +5,10 @@ const gridElement = document.getElementById('grid');
 const wordElement = document.getElementById('word');
 const scoreValueElement = document.getElementById('score-value');
 const wordListElement = document.getElementById('word-list');
-// const submitWordButton = document.getElementById('submit-word'); // Removed
 const finishGameButton = document.getElementById('finish-game');
 const rotateBoardButton = document.getElementById('rotate-board');
 const totalWordsValueElement = document.getElementById('total-words-value');
+const foundWordsValueElement = document.getElementById('found-words-value');
 
 // New DOM Elements for Modals
 const modalOverlay = document.getElementById('modal-overlay');
@@ -22,6 +22,13 @@ const missedWordsCountElement = document.getElementById('missed-words-count');
 const missedWordsListElement = document.getElementById('missed-words-list');
 const playAgainButton = document.getElementById('play-again');
 const exitGameButton = document.getElementById('exit-game');
+
+const winningOverlay = document.getElementById('winning-overlay');
+const winningModal = document.getElementById('winning-modal');
+const winningWordsCountElement = document.getElementById('winning-words-count');
+const winningWordsListElement = document.getElementById('winning-words-list');
+const wplayAgainButton = document.getElementById('wplay-again');
+const wexitGameButton = document.getElementById('wexit-game');
 
 // Game Variables
 const gridSize = 4;
@@ -70,8 +77,8 @@ function loadWordList() {
       // Build the Trie after loading the word list
       trieRoot = buildTrie(wordList);
 
-      // Initialize the game after the word list is ready
-      initGame();
+      // Load the game state or start a new game
+      loadGameState();
     })
     .catch(error => {
       console.error('Error loading word list:', error);
@@ -146,6 +153,11 @@ function renderGrid() {
 
     tile.element = tileElement;
     gridElement.appendChild(tileElement);
+
+    // If tile is selected, add 'selected' class
+    if (tile.selected) {
+      tileElement.classList.add('selected');
+    }
   });
 
   addGridEventListeners();
@@ -241,7 +253,19 @@ function selectTile(index) {
       wordElement.textContent = currentWord;
 
       // Update word appearance
-      wordElement.classList.remove('valid-word', 'invalid-word');
+      wordElement.classList.remove('found-word', 'valid-word', 'invalid-word');
+
+		if (currentWord.length >= 3 &&
+			allValidWords.has(currentWord)
+		) {
+			if (!foundWords.includes(currentWord)) {
+				wordElement.classList.add('valid-word');
+			} else {
+				wordElement.classList.add('found-word');
+			}
+		} else {
+			wordElement.classList.add('invalid-word');
+		}
       return;
     } else {
       // Ignore other already selected tiles
@@ -265,7 +289,19 @@ function selectTile(index) {
     wordElement.textContent = currentWord;
 
     // Reset word styling during selection
-    wordElement.classList.remove('valid-word', 'invalid-word');
+    wordElement.classList.remove('found-word', 'valid-word', 'invalid-word');
+	if (
+		currentWord.length >= 3 &&
+		allValidWords.has(currentWord)
+		) {
+			if (!foundWords.includes(currentWord)) {
+				wordElement.classList.add('valid-word');
+			} else {
+				wordElement.classList.add('found-word');
+			}
+	} else {
+		wordElement.classList.add('invalid-word');
+	}	
   }
 }
 
@@ -286,7 +322,7 @@ function resetSelection() {
   selectedTiles = [];
   currentWord = '';
   wordElement.textContent = '';
-  wordElement.classList.remove('valid-word', 'invalid-word');
+  wordElement.classList.remove('found-word', 'valid-word', 'invalid-word');
 }
 
 // Submit the current word
@@ -303,21 +339,29 @@ function submitCurrentWord() {
     wordListElement.appendChild(wordItem);
     score += calculateWordScore(currentWord);
     scoreValueElement.textContent = score;
+	foundWordsValueElement.textContent = foundWords.length;
 
     // Provide visual feedback for valid word
     wordElement.classList.add('valid-word');
     setTimeout(() => {
       wordElement.classList.remove('valid-word');
-      resetSelection();
-    }, 500);
+    }, 250);
+    resetSelection();
+
+    // Save the game state
+    saveGameState();
+	if ( foundWords.length == allValidWords.size ) {
+		// we won!
+		showWinning();
+	}
   } else {
     // Invalid word
     // Provide subtle feedback for invalid word
     wordElement.classList.add('invalid-word');
     setTimeout(() => {
       wordElement.classList.remove('invalid-word');
-      resetSelection();
-    }, 500);
+    }, 250);
+    resetSelection();
   }
 }
 
@@ -347,8 +391,14 @@ function findAllWords() {
 
 function dfs(index, node, prefix, visited) {
   const tile = grid[index];
-  const letter = tile.letter.toUpperCase();
-  const nextNode = node.children[letter];
+  let letter = tile.letter.toUpperCase();
+  let lookup = letter;
+  if ( 'QU' == letter ) {
+	node = node.children['Q'];
+	if (!node) return;
+	lookup = 'U';
+  }
+  const nextNode = node.children[lookup];
 
   if (!nextNode) return; // No words start with this prefix
 
@@ -387,28 +437,6 @@ function getAdjacentIndices(index) {
   return indices;
 }
 
-function isValidPrefix(prefix) {
-  let node = trieRoot;
-  for (const char of prefix) {
-    if (!node.children[char]) {
-      return false;
-    }
-    node = node.children[char];
-  }
-  return true;
-}
-
-function isCompleteWord(word) {
-  let node = trieRoot;
-  for (const char of word) {
-    if (!node.children[char]) {
-      return false;
-    }
-    node = node.children[char];
-  }
-  return node.isWord;
-}
-
 // Finish the game
 finishGameButton.addEventListener('click', () => {
   // Show the confirmation modal
@@ -438,7 +466,25 @@ function showMissedWords() {
 
   // Show the missed words modal
   missedWordsOverlay.classList.remove('hidden');
+
+  // Clear the saved game state
+  clearGameState();
 }
+
+// Show winning dialog and offer to play again
+function showWinning() {
+  
+  // Display found  words
+  winningWordsCountElement.textContent = foundWords.length;
+  winningWordsListElement.textContent = foundWords.join(', ');
+
+  // Show the missed words modal
+  winningOverlay.classList.remove('hidden');
+
+  // Clear the saved game state
+  clearGameState();
+}
+
 
 // Missed words modal event listeners
 playAgainButton.addEventListener('click', () => {
@@ -452,8 +498,23 @@ exitGameButton.addEventListener('click', () => {
   // Optionally, reset the game or navigate away
 });
 
+// winning modal event listeners
+wplayAgainButton.addEventListener('click', () => {
+  winningOverlay.classList.add('hidden');
+  restartGame();
+});
+
+wexitGameButton.addEventListener('click', () => {
+  winningOverlay.classList.add('hidden');
+  alert('Thank you for playing!');
+  // Optionally, reset the game or navigate away
+});
+
 // Restart the game
 function restartGame() {
+  // Clear the saved game state
+  clearGameState();
+
   // Clear the grid
   grid = [];
   gridElement.innerHTML = '';
@@ -462,7 +523,7 @@ function restartGame() {
   selectedTiles = [];
   currentWord = '';
   wordElement.textContent = '';
-  wordElement.classList.remove('valid-word', 'invalid-word');
+  wordElement.classList.remove('found-word', 'valid-word', 'invalid-word');
 
   score = 0;
   scoreValueElement.textContent = score;
@@ -506,6 +567,9 @@ function rotateGrid() {
 
   // Re-render the grid
   renderGrid();
+
+  // Save the game state
+  saveGameState();
 }
 
 // Initialize the game
@@ -518,19 +582,99 @@ function initGame() {
   // Show the game container
   const gameContainer = document.getElementById('game-container');
   if (gameContainer) {
-    gameContainer.style.display = 'block';
+    gameContainer.style.display = 'flex';
   }
 
   generateGrid();
   renderGrid();
   findAllWords();
   console.log('All valid words:', allValidWords); // For debugging
+  foundWordsValueElement.textContent = 0;  
+
+  // Save the game state
+  saveGameState();
+}
+
+// Save the game state to localStorage
+function saveGameState() {
+  const gameState = {
+    grid: grid.map(tile => ({
+      letter: tile.letter,
+      x: tile.x,
+      y: tile.y,
+      //selected: tile.selected,
+    })),
+    score: score,
+    foundWords: foundWords,
+  };
+
+  localStorage.setItem('gameState', JSON.stringify(gameState));
+}
+
+// Load the game state from localStorage
+function loadGameState() {
+  const savedState = localStorage.getItem('gameState');
+  if (savedState) {
+    const gameState = JSON.parse(savedState);
+    grid = gameState.grid.map(tileData => ({
+      ...tileData,
+      element: null,
+	  selected: false,
+    }));
+    score = gameState.score;
+    foundWords = gameState.foundWords;
+
+    // Re-render the grid and assign elements
+    renderGrid();
+
+    // Update the score display
+    scoreValueElement.textContent = score;
+
+	// Reset any selection-related variables
+	selectedTiles = [];
+	currentWord = '';
+	wordElement.textContent = '';
+	wordElement.classList.remove('found-word', 'valid-word', 'invalid-word');
+
+    // Reconstruct the word list
+    wordListElement.innerHTML = '';
+    foundWords.forEach(word => {
+      const wordItem = document.createElement('li');
+      wordItem.textContent = word;
+      wordListElement.appendChild(wordItem);
+    });
+
+    // Recompute allValidWords
+    findAllWords();
+
+    // Update the total words display
+    totalWordsValueElement.textContent = allValidWords.size;
+	foundWordsValueElement.textContent = foundWords.length;
+
+    // Hide the loading message and show the game container
+    const loadingMessage = document.getElementById('loading-message');
+    if (loadingMessage) {
+      loadingMessage.style.display = 'none';
+    }
+    const gameContainer = document.getElementById('game-container');
+    if (gameContainer) {
+      gameContainer.style.display = 'flex';
+    }
+
+    console.log('Game state loaded from localStorage');
+  } else {
+    // No saved game, start a new game
+    initGame();
+  }
+}
+
+// Clear the saved game state from localStorage
+function clearGameState() {
+  localStorage.removeItem('gameState');
 }
 
 // Start the process by loading the word list
 loadWordList();
-
-// app.js
 
 // Register the service worker
 if ('serviceWorker' in navigator) {
