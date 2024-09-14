@@ -149,7 +149,7 @@ body {
     gap: 0; /* Changed from 5px to 0 */
     
     /* Optional: Add padding if needed */
-    padding: 10px 0;
+    padding-bottom: 5vh;
     
     /* Ensure it doesn't shrink below its content */
     flex-shrink: 0;
