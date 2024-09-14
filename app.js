@@ -347,6 +347,9 @@ function submitCurrentWord() {
       wordElement.classList.remove('valid-word');
     }, 250);
     resetSelection();
+	
+	// Provide tactile feedback
+	navigator.vibrate(30);
 
     // Save the game state
     saveGameState();
