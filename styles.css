@@ -1,324 +1,336 @@
 /* styles.css */
 
+/* 1. Apply box-sizing globally for consistent sizing */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 html {
     overflow: hidden;
     height: 100%;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #121212;
-  color: #e0e0e0;
-  margin: 0px;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    margin: 0;
 }
 
 #game-container {
-  background-color: #1e1e1e;	
-  max-width: 400px;
-  margin: 0px auto;
-  text-align: center;
-  display: flex;
+    background-color: #1e1e1e;	
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    
+    /* Use exact viewport height to prevent overflow */
+    height: 100vh;
+    
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto; /* Enable vertical scrolling if content overflows */
 }
-
 
 /* Found Words Section */
 #found-words-container {
-  
-  flex: 0 0 10%; 
-
-  /* Enable scrolling when content overflows */
-  overflow-y: auto;
-  
-  /* Optional: Add padding and background for better aesthetics */
-  padding: 10px;
-  
-  /* Ensure it doesn't shrink below its content */
-  flex-shrink: 0;
+    flex: 0 0 auto; /* Allow dynamic height */
+    
+    /* Enable scrolling when content overflows */
+    overflow-y: auto;
+    
+    /* Add padding for better aesthetics */
+    padding: 10px;
+    
+    /* Ensure it doesn't shrink below its content */
+    flex-shrink: 0;
 }
 
 #found-words-container h2 {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 /* Word List */
 #word-list {
-  /* Use Flexbox to arrange words horizontally */
-  display: flex;
-  
-  /* Allow words to wrap to the next line */
-  flex-wrap: wrap;
-  
-  /* Remove default list styling */
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 /* Individual Word Items */
 #word-list li {
-  border-radius: 4px;
-  font-size: 14px; /* Adjust as needed */
-  padding: 2px 4px;
-  
-  /* Prevent words from stretching */
-  flex: 0 0 auto;
-}
-
-
-#game-container {
-  display: flex;
-  flex-direction: column;
-  
-  /* Set height to fill the viewport */
-  height: 100vh;
-  
-  /* Optional: Add padding and background */
-  padding: 10px;
-  
-  /* Ensure child elements can grow and shrink appropriately */
-  box-sizing: border-box;
-}
-
-/* Game Grid */
-#grid {
-  /* Allow the grid to take up remaining space */
-  flex: 1 1 auto;
-  
-  /* Maintain grid layout */
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  gap: 5px;
-  
-  /* Optional: Add padding */
-  padding: 10px 0;
-  
-  /* Ensure it doesn't shrink below its content */
-  flex-shrink: 0;
-}
-
-.tile {
-  background-color: #007acc; /* Blue grid cells */
-  border: 2px solid #555;
-  color: #e0e0e0;
-  font-size: 24px;
-  text-align: center;
-  user-select: none;
-  touch-action: manipulation;
-
-  /* Adjusted size */
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
-  padding: 5px;
-  box-sizing: content-box;
-}
-
-.tile.selected {
-  color: #007acc;
-  background-color: #d3d3d3; /* Light gray for selection */
-  border-color: #007acc; /* Blue border */
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 2px 4px;
+    flex: 0 0 auto;
 }
 
 #score {
-  margin: 15px 0;
-  font-size: 14px;
+    margin: 15px 0;
+    font-size: 14px;
 }
 
 #current-word {
-  margin: 15px 0;
-  font-size: 24px;
+    margin: 15px 0;
+    font-size: 24px;
 }
 
-/* Removed submit-word button styles */
-
+/* Controls Section */
 #controls {
-  margin: 15px 0;
+    margin: 15px 0;
 }
 
 #controls button {
-  padding: 10px 15px;
-  font-size: 16px;
-  margin: 0 5px;
-  background-color: #007acc; /* Blue buttons */
-  color: #fff;
-  border: none;  
+    padding: 10px 15px;
+    font-size: 16px;
+    margin: 0 5px;
+    background-color: #007acc; /* Blue buttons */
+    color: #fff;
+    border: none;  
+    cursor: pointer; /* Indicate clickable buttons */
+}
+
+#controls button:focus {
+    outline: none; /* Remove default focus outline */
 }
 
 #total-words {
-  margin: 15px 0;
-  font-size: 14px;
+    margin: 15px 0;
+    font-size: 14px;
 }
-
 
 /* Adjust tile font size for 'Qu' */
 .tile.qu {
-  font-size: 18px;
+    font-size: 50px;
 }
 
 #word {
-  padding: 5px 10px;
-  border-radius: 4px;
-  
-  font-weight: bold;}
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
 
 /* Highlight valid words */
 #word.valid-word {
-  background-color: #228b22; /* green background */
-  color: #e0e0e0; /* Light text */
-  
-  font-weight: bold;
+    background-color: #228b22; /* Green background */
+    color: #e0e0e0; /* Light text */
+    font-weight: bold;
 }
 
 /* Highlight already found words */
 #word.found-word {
-  background-color: #007acc; /* blue background */
-  color: #e0e0e0; /* Light text */
+    background-color: #007acc; /* Blue background */
+    color: #e0e0e0; /* Light text */
 }
-
 
 /* Highlight invalid words */
 #word.invalid-word {
-  background-color: #cc4444; /* red background */
-  color: #e0e0e0; /* Light text */
+    background-color: #cc4444; /* Red background */
+    color: #e0e0e0; /* Light text */
 }
 
-/* Adjust grid for smaller screens */
-@media (max-width: 400px) {
-  #grid {
-    grid-template-columns: repeat(4, 60px);
-    grid-template-rows: repeat(4, 60px);
-  }
-  .tile {
-    font-size: 20px;
-    line-height: 60px;
-    width: 50px;
-    height: 50px;
-  }
+/* Game Grid */
+#grid {
+    /* Push the grid to the bottom */
+    margin-top: auto;
+    
+    /* Set width to fill horizontally up to 400px */
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto; /* Centers the grid horizontally */
+    
+    /* Maintain grid layout */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    
+    /* Remove gaps to eliminate black spaces */
+    gap: 0; /* Changed from 5px to 0 */
+    
+    /* Optional: Add padding if needed */
+    padding: 10px 0;
+    
+    /* Ensure it doesn't shrink below its content */
+    flex-shrink: 0;
+    
+    /* Ensure grid background is transparent */
+    background-color: transparent;
+}
+
+/* Tile Styles */
+.tile {
+    background-color: #007acc; /* Blue grid cells */
+    border: 2px solid #555; /* Optional: Remove if you don't want borders */
+    color: #e0e0e0; /* Ensure text is visible */
+    font-size: 50px;
+    text-align: center;
+    user-select: none;
+    touch-action: manipulation;
+
+    /* Make tiles responsive and square */
+    width: 100%;
+    aspect-ratio: 1; /* Keeps tiles square */
+    /* Remove fixed line-height */
+    line-height: normal;
+    padding: 5px;
+    box-sizing: border-box;
+    
+    /* Use Flexbox to center content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Ensure relative positioning for inner elements */
+    position: relative;
+
+    /* Make the entire tile clickable */
+    cursor: pointer;
+
+    /* Disable pointer events on the tile to allow inner elements to handle clicks */
+    pointer-events: none; /* Disable pointer events on the tile itself */
+}
+
+.tile:hover {
+    background-color: #005fa3; /* Darker blue on hover */
+}
+
+.tile.selected {
+    color: #007acc; /* Blue text on light gray background */
+    background-color: #d3d3d3; /* Light gray for selection */
+    border-color: #007acc; /* Blue border */
+}
+
+/* Make tile-inner handle pointer events and occupy 95% of the tile */
+.tile-inner {
+    width: 85%; /* Occupy 95% width of the tile */
+    height: 85%; /* Occupy 95% height of the tile */
+    margin: auto; /* Center tile-inner within tile */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto; /* Allow tile-inner to receive pointer events */
+    cursor: pointer; /* Indicate clickable area */
+}
+
+/* If you have tile-content inside tile-inner, ensure it doesn't intercept pointer events */
+.tile-content {
+    pointer-events: none; /* Prevent tile-content from handling pointer events */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 /* Loading message style */
 #loading-message {
-  text-align: center;
-  font-size: 24px;
-  margin-top: 50px;
+    text-align: center;
+    font-size: 24px;
+    margin-top: 50px;
 }
-
-
 
 /* Modal Overlay Styles */
 #modal-overlay,
 #missed-words-overlay,
-#winning-overlay
- {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  /* Remove display: flex; from here */
-  justify-content: center;
-  align-items: center;
+#winning-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Remove display: flex; from here */
+    justify-content: center;
+    align-items: center;
 }
 
 /* Add display: flex only when the modals are not hidden */
 #modal-overlay:not(.hidden),
 #missed-words-overlay:not(.hidden),
-#winning-overlay:not(.hidden)
- {
-  display: flex;
+#winning-overlay:not(.hidden) {
+    display: flex;
 }
 
 .hidden {
-  display: none;
+    display: none;
 }
 
 .modal {
-  background-color: #333333;
-  color: #e0e0e0;
-  padding: 20px;
-  border-width: 4px;
-  border-radius: 8px;
-  border-color: #e0e0e0;
-  text-align: center;
-  max-width: 80%;
-  max-height: 80%;
-  overflow-y: auto;
+    background-color: #333333;
+    color: #e0e0e0;
+    padding: 20px;
+    border-width: 4px;
+    border-radius: 8px;
+    border-color: #e0e0e0;
+    text-align: center;
+    max-width: 80%;
+    max-height: 80%;
+    overflow-y: auto;
 }
 
 .modal button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007acc; /* Blue buttons */
-  color: #fff;  
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007acc; /* Blue buttons */
+    color: #fff;  
+    border: none;
+    cursor: pointer; /* Indicate clickable buttons */
 }
 
-/* Adjust Tile Sensitivity */
-.tile {
-  position: relative;
-  /* Adjusted size */
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
-  margin: auto;
+.modal button:focus {
+    outline: none; /* Remove default focus outline */
 }
-
-.tile-inner {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  right: 5px;
-  bottom: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
-}
-
-.tile.selected .tile-inner {
-  background-color: #a0d2eb;
-  border-color: #007acc;
-}
-
-.tile-content {
-  pointer-events: auto;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-}
-
-/* Adjust grid dimensions to account for tile size */
-#grid {
-  grid-template-columns: repeat(4, 70px);
-  grid-template-rows: repeat(4, 70px);
-  gap: 5px;
-  justify-content: center;
-}
-
 
 /* Responsive Adjustments */
 @media (max-width: 600px) {
-  /* Adjust the height of the found words container */
-  #found-words-container {
-    height: 120px; /* Reduce height on smaller screens */
-  }
-  
-  /* Adjust word item font size */
-  #word-list li {
-    font-size: 12px;
-    padding: 2px 4px;
-  }
-  
-  /* Adjust game grid gap and tile size */
-  #grid {
-    gap: 4px;
-  }
-  
-  .tile {
-    font-size: 20px; /* Reduce font size for tiles */
-    padding: 5px;
-  }
+    /* Adjust the height of the found words container */
+    #found-words-container {
+        height: 120px; /* Reduce height on smaller screens */
+    }
+    
+    /* Adjust word item font size */
+    #word-list li {
+        font-size: 12px;
+        padding: 2px 4px;
+    }
+    
+    /* Adjust game grid gap */
+    #grid {
+        gap: 0; /* Ensure no gaps on smaller screens */
+    }
+    
+    /* Adjust tile padding and font size */
+    .tile {
+        font-size: 20px; /* Reduce font size for tiles */
+        padding: 2px;
+    }
+}
+
+@media (max-width: 400px) {
+    #grid {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: 0; /* Ensure no gaps on very small screens */
+    }
+    .tile {
+        font-size: 40px;
+        /* width and height managed by aspect-ratio */
+        padding: 2px;
+    }
+	/* Adjust tile font size for 'Qu' */
+	.tile.qu {
+		font-size: 40px;
+	}    
+    /* Ensure modal buttons are responsive */
+    .modal button {
+        width: 100%;
+        box-sizing: border-box;
+    }
 }

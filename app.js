@@ -220,7 +220,7 @@ function onTouchEnd(event) {
 function getTileIndexFromEvent(event) {
   const touch = event.touches ? event.touches[0] : event;
   const element = document.elementFromPoint(touch.clientX, touch.clientY);
-  if (element && element.classList.contains('tile-content')) {
+  if (element && element.classList.contains('tile-inner')) {
     const tileElement = element.closest('.tile');
     return Array.from(gridElement.children).indexOf(tileElement);
   }
