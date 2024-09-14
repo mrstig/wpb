@@ -7,11 +7,13 @@ html {
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
+  background-color: #121212;
+  color: #e0e0e0;
   margin: 0px;
 }
 
 #game-container {
+  background-color: #1e1e1e;	
   max-width: 400px;
   margin: 0px auto;
   text-align: center;
@@ -50,7 +52,6 @@ body {
   list-style: none;
   padding: 0;
   margin: 0;
-  margin-top: 20px;
   
 }
 
@@ -58,7 +59,7 @@ body {
 #word-list li {
   border-radius: 4px;
   font-size: 14px; /* Adjust as needed */
-  
+  padding: 2px 4px;
   
   /* Prevent words from stretching */
   flex: 0 0 auto;
@@ -74,7 +75,6 @@ body {
   
   /* Optional: Add padding and background */
   padding: 10px;
-  background-color: #ffffff;
   
   /* Ensure child elements can grow and shrink appropriately */
   box-sizing: border-box;
@@ -99,8 +99,9 @@ body {
 }
 
 .tile {
-  background-color: #ffffff;
-  border: 2px solid #cccccc;
+  background-color: #007acc; /* Blue grid cells */
+  border: 2px solid #555;
+  color: #e0e0e0;
   font-size: 24px;
   text-align: center;
   user-select: none;
@@ -115,8 +116,9 @@ body {
 }
 
 .tile.selected {
-  background-color: #a0d2eb;
-  border-color: #007acc;
+  color: #007acc;
+  background-color: #d3d3d3; /* Light gray for selection */
+  border-color: #007acc; /* Blue border */
 }
 
 #score {
@@ -139,6 +141,9 @@ body {
   padding: 10px 15px;
   font-size: 16px;
   margin: 0 5px;
+  background-color: #007acc; /* Blue buttons */
+  color: #fff;
+  border: none;  
 }
 
 #total-words {
@@ -152,23 +157,31 @@ body {
   font-size: 18px;
 }
 
+#word {
+  padding: 5px 10px;
+  border-radius: 4px;
+  
+  font-weight: bold;}
+
 /* Highlight valid words */
 #word.valid-word {
-  color: green;
+  background-color: #228b22; /* green background */
+  color: #e0e0e0; /* Light text */
+  
   font-weight: bold;
 }
 
 /* Highlight already found words */
 #word.found-word {
-  color: blue;
-  font-weight: bold;
+  background-color: #007acc; /* blue background */
+  color: #e0e0e0; /* Light text */
 }
 
 
 /* Highlight invalid words */
 #word.invalid-word {
-  color: red;
-  font-weight: bold;
+  background-color: #cc4444; /* red background */
+  color: #e0e0e0; /* Light text */
 }
 
 /* Adjust grid for smaller screens */
@@ -223,9 +236,12 @@ body {
 }
 
 .modal {
-  background-color: #ffffff;
+  background-color: #333333;
+  color: #e0e0e0;
   padding: 20px;
+  border-width: 4px;
   border-radius: 8px;
+  border-color: #e0e0e0;
   text-align: center;
   max-width: 80%;
   max-height: 80%;
@@ -236,6 +252,8 @@ body {
   margin: 10px;
   padding: 10px 20px;
   font-size: 16px;
+  background-color: #007acc; /* Blue buttons */
+  color: #fff;  
 }
 
 /* Adjust Tile Sensitivity */
