@@ -103,10 +103,6 @@ body {
     font-size: 14px;
 }
 
-/* Adjust tile font size for 'Qu' */
-.tile.qu {
-    font-size: 50px;
-}
 
 #word {
     padding: 5px 10px;
@@ -308,7 +304,7 @@ body {
     
     /* Adjust tile padding and font size */
     .tile {
-        font-size: 20px; /* Reduce font size for tiles */
+        font-size: 45px; /* Reduce font size for tiles */
         padding: 2px;
     }
 }
@@ -324,10 +320,7 @@ body {
         /* width and height managed by aspect-ratio */
         padding: 2px;
     }
-	/* Adjust tile font size for 'Qu' */
-	.tile.qu {
-		font-size: 40px;
-	}    
+
     /* Ensure modal buttons are responsive */
     .modal button {
         width: 100%;
