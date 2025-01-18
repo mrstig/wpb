@@ -347,7 +347,7 @@ function submitCurrentWord() {
     resetSelection();
 	
 	// Provide tactile feedback
-	navigator.vibrate(30);
+	navigator.vibrate && navigator.vibrate(30);
 
     // Save the game state
     saveGameState();
