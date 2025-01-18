@@ -133,7 +133,7 @@ function generateGrid() {
 // Render the grid on the page
 function renderGrid() {
   gridElement.innerHTML = '';
-  grid.forEach((tile, index) => {
+  grid.forEach((tile) => {
     const tileElement = document.createElement('div');
     tileElement.classList.add('tile');
     if (tile.letter === 'Qu') {
@@ -174,9 +174,9 @@ function addGridEventListeners() {
   gridElement.removeEventListener('mouseup', onTouchEnd);
 
   // Add touch event listeners to the grid
-  gridElement.addEventListener('touchstart', onTouchStart);
-  gridElement.addEventListener('touchmove', onTouchMove);
-  gridElement.addEventListener('touchend', onTouchEnd);
+  gridElement.addEventListener('touchstart', onTouchStart, { passive: false });
+  gridElement.addEventListener('touchmove', onTouchMove, { passive: false });
+  gridElement.addEventListener('touchend', onTouchEnd, { passive: false });
 
   // For mouse support (optional)
   gridElement.addEventListener('mousedown', onTouchStart);
@@ -235,7 +235,7 @@ function selectTile(index) {
   if (tile.selected) {
     // If it's the last selected tile, do nothing
     if (index === selectedTiles[selectedTiles.length - 1]) {
-      return;
+      // Do nothing
     }
     // If it's the previous tile, deselect the last tile
     else if (
@@ -266,10 +266,8 @@ function selectTile(index) {
 		} else {
 			wordElement.classList.add('invalid-word');
 		}
-      return;
     } else {
       // Ignore other already selected tiles
-      return;
     }
   } else {
     // Check adjacency
@@ -353,7 +351,7 @@ function submitCurrentWord() {
 
     // Save the game state
     saveGameState();
-	if ( foundWords.length == allValidWords.size ) {
+	if ( foundWords.length === allValidWords.size ) {
 		// we won!
 		showWinning();
 	}
@@ -396,7 +394,7 @@ function dfs(index, node, prefix, visited) {
   const tile = grid[index];
   let letter = tile.letter.toUpperCase();
   let lookup = letter;
-  if ( 'QU' == letter ) {
+  if ( 'QU' === letter ) {
 	node = node.children['Q'];
 	if (!node) return;
 	lookup = 'U';
