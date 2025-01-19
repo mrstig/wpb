@@ -149,7 +149,7 @@ body {
     gap: 0; /* Changed from 5px to 0 */
     
     /* Optional: Add padding if needed */
-    padding-bottom: 5vh;
+    padding-bottom: 10vh;
     
     /* Ensure it doesn't shrink below its content */
     flex-shrink: 0;
@@ -190,9 +190,10 @@ body {
     /* Disable pointer events on the tile to allow inner elements to handle clicks */
     pointer-events: none; /* Disable pointer events on the tile itself */
 }
-
-.tile:hover {
-    background-color: #005fa3; /* Darker blue on hover */
+@media (any-hover: hover) {
+    .tile:hover {
+        background-color: #005fa3; /* Darker blue on hover */
+    }
 }
 
 .tile.selected {

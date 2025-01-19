@@ -323,6 +323,18 @@ function resetSelection() {
   wordElement.classList.remove('found-word', 'valid-word', 'invalid-word');
 }
 
+function renderFoundWords() {
+  wordListElement.innerHTML = '';
+  // sort the found words using a clone of the array
+  const sortedWords = foundWords.slice().sort();
+
+  sortedWords.forEach((word) => {
+    const wordItem = document.createElement('li');
+    wordItem.textContent = word;
+    wordListElement.appendChild(wordItem);
+  });
+}
+
 // Submit the current word
 function submitCurrentWord() {
   if (
@@ -332,9 +344,9 @@ function submitCurrentWord() {
   ) {
     // Valid word found
     foundWords.push(currentWord);
-    const wordItem = document.createElement('li');
-    wordItem.textContent = currentWord;
-    wordListElement.appendChild(wordItem);
+
+    renderFoundWords();
+
     score += calculateWordScore(currentWord);
     scoreValueElement.textContent = score;
 	foundWordsValueElement.textContent = foundWords.length;

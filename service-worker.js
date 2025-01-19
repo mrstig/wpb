@@ -1,4 +1,4 @@
-const version = '0.3.5';
+const version = '0.3.6';
 const cacheName = 'wpb-v1';
 const assetsToCache = [
   './',
