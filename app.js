@@ -1,4 +1,4 @@
-// app.js
+  // app.js
 
 // DOM Elements
 const gridElement = document.getElementById('grid');
@@ -255,17 +255,17 @@ function selectTile(index) {
       // Update word appearance
       wordElement.classList.remove('found-word', 'valid-word', 'invalid-word');
 
-		if (currentWord.length >= 3 &&
-			allValidWords.has(currentWord)
-		) {
-			if (!foundWords.includes(currentWord)) {
-				wordElement.classList.add('valid-word');
-			} else {
-				wordElement.classList.add('found-word');
-			}
-		} else {
-			wordElement.classList.add('invalid-word');
-		}
+    if (currentWord.length >= 3 &&
+      allValidWords.has(currentWord)
+    ) {
+      if (!foundWords.includes(currentWord)) {
+        wordElement.classList.add('valid-word');
+      } else {
+        wordElement.classList.add('found-word');
+      }
+    } else {
+      wordElement.classList.add('invalid-word');
+    }
     } else {
       // Ignore other already selected tiles
     }
@@ -288,18 +288,18 @@ function selectTile(index) {
 
     // Reset word styling during selection
     wordElement.classList.remove('found-word', 'valid-word', 'invalid-word');
-	if (
-		currentWord.length >= 3 &&
-		allValidWords.has(currentWord)
-		) {
-			if (!foundWords.includes(currentWord)) {
-				wordElement.classList.add('valid-word');
-			} else {
-				wordElement.classList.add('found-word');
-			}
-	} else {
-		wordElement.classList.add('invalid-word');
-	}	
+  if (
+    currentWord.length >= 3 &&
+    allValidWords.has(currentWord)
+    ) {
+      if (!foundWords.includes(currentWord)) {
+        wordElement.classList.add('valid-word');
+      } else {
+        wordElement.classList.add('found-word');
+      }
+  } else {
+    wordElement.classList.add('invalid-word');
+  } 
   }
 }
 
@@ -349,7 +349,7 @@ function submitCurrentWord() {
 
     score += calculateWordScore(currentWord);
     scoreValueElement.textContent = score;
-	foundWordsValueElement.textContent = foundWords.length;
+  foundWordsValueElement.textContent = foundWords.length;
 
     // Provide visual feedback for valid word
     wordElement.classList.add('valid-word');
@@ -357,16 +357,16 @@ function submitCurrentWord() {
       wordElement.classList.remove('valid-word');
     }, 250);
     resetSelection();
-	
-	// Provide tactile feedback
-	navigator.vibrate && navigator.vibrate(30);
+  
+  // Provide tactile feedback
+  navigator.vibrate && navigator.vibrate(30);
 
     // Save the game state
     saveGameState();
-	if ( foundWords.length === allValidWords.size ) {
-		// we won!
-		showWinning();
-	}
+  if ( foundWords.length === allValidWords.size ) {
+    // we won!
+    showWinning();
+  }
   } else {
     // Invalid word
     // Provide subtle feedback for invalid word
@@ -407,9 +407,9 @@ function dfs(index, node, prefix, visited) {
   let letter = tile.letter.toUpperCase();
   let lookup = letter;
   if ( 'QU' === letter ) {
-	node = node.children['Q'];
-	if (!node) return;
-	lookup = 'U';
+  node = node.children['Q'];
+  if (!node) return;
+  lookup = 'U';
   }
   const nextNode = node.children[lookup];
 
@@ -606,6 +606,9 @@ function initGame() {
 
   // Save the game state
   saveGameState();
+
+  // P8a78
+  renderFoundWords();
 }
 
 // Save the game state to localStorage
@@ -632,7 +635,7 @@ function loadGameState() {
     grid = gameState.grid.map(tileData => ({
       ...tileData,
       element: null,
-	  selected: false,
+    selected: false,
     }));
     score = gameState.score;
     foundWords = gameState.foundWords;
@@ -643,11 +646,11 @@ function loadGameState() {
     // Update the score display
     scoreValueElement.textContent = score;
 
-	// Reset any selection-related variables
-	selectedTiles = [];
-	currentWord = '';
-	wordElement.textContent = '';
-	wordElement.classList.remove('found-word', 'valid-word', 'invalid-word');
+  // Reset any selection-related variables
+  selectedTiles = [];
+  currentWord = '';
+  wordElement.textContent = '';
+  wordElement.classList.remove('found-word', 'valid-word', 'invalid-word');
 
     // Reconstruct the word list
     wordListElement.innerHTML = '';
@@ -662,7 +665,7 @@ function loadGameState() {
 
     // Update the total words display
     totalWordsValueElement.textContent = allValidWords.size;
-	foundWordsValueElement.textContent = foundWords.length;
+  foundWordsValueElement.textContent = foundWords.length;
 
     // Hide the loading message and show the game container
     const loadingMessage = document.getElementById('loading-message');
@@ -675,6 +678,9 @@ function loadGameState() {
     }
 
     console.log('Game state loaded from localStorage');
+
+    // P404b
+    renderFoundWords();
   } else {
     // No saved game, start a new game
     initGame();
